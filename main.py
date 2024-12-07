@@ -2,8 +2,8 @@ import torch
 import numpy as np
 
 from PIL import Image
-from lang_sam import Llava
-from lang_sam import Llama
+from models import Llava
+from models import Llama
 from lang_sam import LangSAM
 from lang_sam.utils import draw_image
 
