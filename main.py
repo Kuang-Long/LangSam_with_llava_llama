@@ -101,6 +101,7 @@ def main(inp, image_path):
         Object list: {ans}
         Question or description: "{inp}"
     """
+    ##########################
 
     ans = llama.chat(question, template)
     print('------------------------------------------------------------------------------------------------')
