@@ -3,7 +3,7 @@ from PIL import Image
 from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 class Llava:
-    def __init__(self, model_name="llava-hf/llava-onevision-qwen2-0.5b-ov-hf", device=0):
+    def __init__(self, model_name="llava-hf/llava-onevision-qwen2-0.5b-si-hf", device=0):
         self.model_name = model_name
         self.device = device
         self.model, self.processor = self.load_model_and_processor()
@@ -19,7 +19,7 @@ class Llava:
         processor = AutoProcessor.from_pretrained(self.model_name)
         return model, processor
 
-    def generate_description(self, image, prompt, max_new_tokens=200):
+    def generate_description(self, image, prompt, max_new_tokens=300):
         """Generates a detailed description of an image."""
         conversation = [
             {
@@ -32,6 +32,19 @@ class Llava:
                     {"type": "image"},
                 ],
             },
+            {
+                "role": "assistant",
+                "content": [{"type": "text", "text": "This image shows a red stop sign."},]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"{prompt}"
+                    }
+                ],
+            },
         ]
         prompt = self.processor.apply_chat_template(conversation, add_generation_prompt=True)
         inputs = self.processor(
@@ -39,7 +52,12 @@ class Llava:
         ).to(self.device, torch.float16)
 
         output = self.model.generate(
-            **inputs, max_new_tokens=max_new_tokens, do_sample=False
+            **inputs, 
+            max_new_tokens=max_new_tokens, 
+            do_sample=True,
+            temperature=0.7,
+            topk=30,
+            top_p=0.9
         )
         output = self.processor.decode(
             output[0][2:], skip_special_tokens=True
