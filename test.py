@@ -55,16 +55,17 @@ def main(inp, image_path):
     print('Output description:\n', description)
 
     is_question = qd.is_question(inp)
-    output = llava.chat(image, prompt=inp, is_question=is_question)
+    ans = llava.chat(image, prompt=inp, is_question=is_question)
     print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
     print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-    print(output)
-    question = f"{output}"
-    template = "what are the main objects explicitly described in this: {question}"
-    ans = llama.chat(question, template)
-    print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-    print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-    print('llama: ' + ans)
+    print(ans)
+    if is_question:
+        question = f"{ans}"
+        template = "what are the main objects explicitly described in this: {question}"
+        ans = llama.chat(question, template)
+        print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+        print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+        print('llama: ' + ans)
 
     # Image segmentation with langsam
     output_path = "output_image.png"
