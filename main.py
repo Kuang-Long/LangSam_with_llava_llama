@@ -1,4 +1,3 @@
-import torch
 import numpy as np
 
 from PIL import Image
@@ -51,7 +50,7 @@ def main(inp, image_path):
         Explain the scene, the actions taking place. 
         Include the setting, background details.
     """
-    description = llava.generate_description(image, description_prompt)
+    description = llava.chat(image, description_prompt)
     print('Output description:\n', description)
 
     # Extract all bojects mentioned in the description with Llama
@@ -85,7 +84,7 @@ def main(inp, image_path):
     {ans}
     Question or description: {inp}
     """
-    template = template = f"""
+    template = f"""
         Based on the object list below and the given question or description, identify the objects that are directly related.
         If no objects are related, return "none."
 
