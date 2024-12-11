@@ -26,7 +26,7 @@ def main(inp, image_path, image_url):
     print(ans)
     if not is_question:
         question = f"{ans}"
-        template = "what are the main objects explicitly described in this: {question} and related to {inp}"
+        template = "what are the main objects explicitly described in this: {question} and related to " + f"{inp}"
         ans = llama.chat(question, template)
         print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
         print('------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
