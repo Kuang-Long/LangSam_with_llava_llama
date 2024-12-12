@@ -51,7 +51,7 @@ def main(inp, image_path, image_url):
 # Example usage
 if __name__ == "__main__":
     # use ur token here
-    token = "3ef4060368982c4cb1fb2487d584199c" 
+    token = "your token" 
     while(True):
         inp = input('Prompt: ')
         image_path = input('Image path: ')
